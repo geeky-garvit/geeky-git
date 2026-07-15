@@ -1,0 +1,22 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    
+}
+.h1{
+    top:12vh;
+    justify-self:center;
+    background-image: linear-gradient(rgb(247, 151, 229), rgb(224, 178, 250));
+    color: transparent;
+    background-clip: text;
+    font-size:18vw;
+    position:fixed;
+    z-index: -100;
+}
+.error {
+    color: red;
+    text-align: center;
+    font-size: 18px;
+    margin: 20px;
+}

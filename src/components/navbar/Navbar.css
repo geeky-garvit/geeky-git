@@ -1,0 +1,104 @@
+
+nav{
+    width:70vw;
+    height:44px;
+    border-radius: 25px;
+    border-style: hidden;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+    background-color: #f7f4f4;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    position:fixed;
+    justify-self:center;
+    top:40vh;
+    transition: 2s all ease-in-out;
+}
+.Logo{
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d7b9e1;
+    
+}
+
+nav .compare {
+    display:none;
+    justify-self: end;
+    
+}
+
+
+.search{
+    width: 80%;
+    height: 5vh;
+    border-radius: 25px;
+    border-style: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.search input{
+    width: 80vw;
+    height: 4vh;
+    border-radius: 25px;
+    border-style: hidden;
+    background-color: #ffffff;
+    padding-left: 10px;
+}
+ button{
+    width: 5vw;
+    height: 4vh;
+    border-radius: 25px;
+    border-style: hidden;
+    background-color: #d7b9e1;
+    color: white;
+    justify-self: end;
+    transition: 0.5s all ease-in-out;
+}
+nav  button:hover{
+    background-color: #c9a3d6;
+    box-shadow: #c9a3d6 0px 0px 10px 0px;
+}
+/* serch button presss*/
+.navbar.moved{
+    top:5%;
+    width: 95vw;
+    transition: 2s all ease-in-out;
+    
+}
+.navbar.moved .compare {
+    display:block;
+}
+.navbar.moved  button{
+    display:none;
+}
+nav   button:hover{
+    background-color: #c9a3d6;
+    box-shadow: #c9a3d6 0px 0px 10px 0px;
+}
+/**/
+nav .compareuser{
+    display:none;
+    border-radius: 25px;
+    border-style: hidden;
+    background-color: #ffffff;
+   
+    padding-left: 10px;
+    transition: 1s all ease-in-out;
+   
+    width: 0%;
+}
+nav .compareuser.show{
+    display:flex;
+   
+    height: 4vh;
+    width: 20%;
+    transition: 1s all ease-in-out;
+}
+nav .searchinput.compare{
+    width:60%;
+     transition: 2s all ease-in-out;
+}
