@@ -2,57 +2,50 @@ import { useState } from "react";
 import Navbar from "./components/navbar/Navbar.jsx";
 import Profile from "./components/profile";
 import "./App.css";
+import CompareModal from "./components/CompareModal";
+import usegithubUser from "./hooks/useGithubUser";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState("");
+  const {
 
-  async function fetchProfile(username) {
-    try {
-      setError("");
+    user,
 
-      const response = await fetch(
-        `https://api.github.com/users/${username}`
-      );
+    compareUser,
 
-      const data = await response.json();
+    showCompare,
 
-      if (response.status === 403) {
-        setError(
-          "GitHub API rate limit exceeded. Please try again later."
-        );
-        setUser(null);
-        return;
-      }
+    error,
 
-      if (data.message === "Not Found") {
-        setError("User not found");
-        setUser(null);
-        return;
-      }
+    compareError,
 
-      setUser(data);
-    } catch (error) {
-      setError(
-        "Something went wrong. Please check your internet connection."
-      );
-      setUser(null);
-      console.log(error);
-    }
-  }
+    fetchProfile,
 
+    fetchCompareProfile,
+
+    setShowCompare,
+
+} = useGithubUser();
   return (
     <>
       <h1 className="h1">Geeky Git</h1>
 
-      <Navbar onSearch={fetchProfile} />
+      <Navbar onSearch={fetchProfile} onCompare={fetchCompareProfile} />
 
       {error && <p className="error">{error}</p>}
 
-     <Profile
-    user={user}
-    fetchProfile={fetchProfile}
-/>
+      {compareError && <p className="error">{compareError}</p>}
+
+      <div className="profiles">
+        <Profile user={user} fetchProfile={fetchProfile} />
+
+        {showCompare && compareUser && (
+          <CompareModal
+            user1={user}
+            user2={compareUser}
+            onClose={() => setShowCompare(false)}
+          />
+        )}
+      </div>
     </>
   );
 }
