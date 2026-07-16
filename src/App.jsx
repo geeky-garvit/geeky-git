@@ -1,42 +1,38 @@
-import { useState } from "react";
-import Navbar from "./components/navbar/Navbar.jsx";
-import Profile from "./components/profile";
+import { useContext } from "react";
+import githubcontext from "./context/githubcontext";
+
+import Navbar from "./components/navbar/navbar";
+import Profile from "./components/profile/profile";
+import CompareModal from "./components/compareform/CompareModal";
 import "./App.css";
-import CompareModal from "./components/CompareModal";
-import usegithubUser from "./hooks/useGithubUser";
 
 function App() {
   const {
-
     user,
-
     compareUser,
-
     showCompare,
-
     error,
-
     compareError,
-
     fetchProfile,
-
     fetchCompareProfile,
-
     setShowCompare,
+  } = useContext(githubcontext);
 
-} = useGithubUser();
   return (
     <>
       <h1 className="h1">Geeky Git</h1>
 
-      <Navbar onSearch={fetchProfile} onCompare={fetchCompareProfile} />
+      <Navbar
+        onSearch={fetchProfile}
+        onCompare={fetchCompareProfile}
+      />
 
       {error && <p className="error">{error}</p>}
 
       {compareError && <p className="error">{compareError}</p>}
 
       <div className="profiles">
-        <Profile user={user} fetchProfile={fetchProfile} />
+        <Profile />
 
         {showCompare && compareUser && (
           <CompareModal

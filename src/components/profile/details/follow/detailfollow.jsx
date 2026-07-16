@@ -1,107 +1,91 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./detailfollow.css";
+import githubcontext from "../../../../context/githubcontext";
 
-function DetailFollow({ user, fetchProfile }) {
+function DetailFollow() {
+  const { user, fetchProfile } = useContext(githubcontext);
 
-    const [followers, setFollowers] = useState([]);
-    const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
+  const [followers, setFollowers] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-    async function loadFollowers(pageNumber) {
+  async function loadFollowers(pageNumber) {
+    try {
+      setLoading(true);
 
-        try {
+      const res = await fetch(
+        `${user.followers_url}?per_page=30&page=${pageNumber}`,
+      );
 
-            setLoading(true);
+      const data = await res.json();
 
-            const res = await fetch(
-                `${user.followers_url}?page=${pageNumber}&per_page=30`
-            );
+      if (pageNumber === 1) {
+        setFollowers(data);
+      } else {
+        setFollowers((prev) => [...prev, ...data]);
+      }
 
-            const data = await res.json();
-
-            if (pageNumber === 1) {
-                setFollowers(data);
-            } else {
-                setFollowers((prev) => [...prev, ...data]);
-            }
-
-            if (data.length < 30) {
-                setHasMore(false);
-            }
-
-        } catch (err) {
-            console.log(err);
-        } finally {
-            setLoading(false);
-        }
+      if (data.length < 30) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    useEffect(() => {
+  useEffect(() => {
+    if (!user) return;
 
-        setFollowers([]);
-        setPage(1);
-        setHasMore(true);
+    setFollowers([]);
+    setPage(1);
+    setHasMore(true);
 
-        loadFollowers(1);
+    loadFollowers(1);
+  }, [user]);
 
-    }, [user]);
+  function handleLoadMore() {
+    const nextPage = page + 1;
 
-    function handleLoadMore() {
+    setPage(nextPage);
 
-        const nextPage = page + 1;
+    loadFollowers(nextPage);
+  }
 
-        setPage(nextPage);
+  return (
+    <div className="details">
+      <div className="profile-panel">
+        {followers.map((follower) => (
+          <div
+            key={follower.id}
+            className="profile-panel-item"
+            onClick={() => fetchProfile(follower.login)}
+          >
+            <img
+              src={follower.avatar_url}
+              alt={follower.login}
+              width="60"
+            />
 
-        loadFollowers(nextPage);
+            <h3>{follower.login}</h3>
+          </div>
+        ))}
+      </div>
 
-    }
+      {loading && <h2>Loading...</h2>}
 
-    return (
-
-        <div className="details">
-
-            <div className="profile-panel">
-
-                {followers.map((follower) => (
-
-                    <div
-                        key={follower.id}
-                        className="profile-panel-item"
-                        onClick={() => fetchProfile(follower.login)}
-                    >
-
-                        <img
-                            src={follower.avatar_url}
-                            alt={follower.login}
-                            width="60"
-                        />
-
-                        <h3>{follower.login}</h3>
-
-                    </div>
-
-                ))}
-
-            </div>
-
-            {loading && <h2>Loading...</h2>}
-
-            {!loading && hasMore && (
-
-                <button
-                    className="load-more"
-                    onClick={handleLoadMore}
-                >
-                    Load More
-                </button>
-
-            )}
-
-        </div>
-
-    );
-
+      {!loading && hasMore && (
+        <button
+          className="load-more"
+          onClick={handleLoadMore}
+        >
+          Load More
+        </button>
+      )}
+    </div>
+  );
 }
 
 export default DetailFollow;

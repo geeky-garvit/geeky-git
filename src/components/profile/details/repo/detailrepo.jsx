@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./detailrepo.css";
+import githubcontext from "../../../../context/githubcontext";
 
 function DetailRepo({ user }) {
 

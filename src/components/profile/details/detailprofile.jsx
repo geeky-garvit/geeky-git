@@ -1,10 +1,15 @@
+import { useContext } from "react";
+import githubcontext from "../../../context/githubcontext";
 import "./detailprofile.css";
 
-function DetailProfile({ user }) {
+function DetailProfile() {
+  const { user } = useContext(githubcontext);
+
+  if (!user) return null;
+
   return (
     <div className="details">
       <div className="profile-panel">
-
         <div className="profile-panel-item">
           <strong>Name</strong>
           <span>{user.name}</span>
@@ -16,20 +21,14 @@ function DetailProfile({ user }) {
         </div>
 
         <div className="profile-panel-item">
-          <strong>Location</strong>
-          <span>{user.location || "Not Available"}</span>
-        </div>
-
-        <div className="profile-panel-item">
           <strong>Company</strong>
-          <span>{user.company || "Not Available"}</span>
+          <span>{user.company || "N/A"}</span>
         </div>
 
         <div className="profile-panel-item">
-          <strong>Public Repos</strong>
-          <span>{user.public_repos}</span>
+          <strong>Location</strong>
+          <span>{user.location || "N/A"}</span>
         </div>
-
       </div>
     </div>
   );

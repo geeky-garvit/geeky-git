@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./detailfollowing.css";
+import { useContext } from "react";
+import githubcontext from "../../../../context/githubcontext";
 
 function DetailFollowing({ user, fetchProfile }) {
 
@@ -7,6 +9,7 @@ function DetailFollowing({ user, fetchProfile }) {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    
 
     async function loadFollowing(pageNumber) {
 
@@ -16,9 +19,13 @@ function DetailFollowing({ user, fetchProfile }) {
 
             const url = user.following_url.replace("{/other_user}", "");
 
-            const res = await fetch(
-                `${url}?page=${pageNumber}&per_page=30`
-            );
+            const {
+
+        res,
+
+        fetchProfile,
+
+    } = useContext(GithubContext);
 
             const data = await res.json();
 

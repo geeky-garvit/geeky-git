@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import GithubContext from "../../context/githubcontext.jsx";
+import DetailProfile from "./details/detailprofile";
+import Detailfollow from "./details/follow/detailfollow";
+import Detailfollowing from "./details/following/detailfollowing";
+import Detailrepo from "./details/repo/detailrepo";
 import "./profile.css";
 
-import DetailProfile from "./detailprofile";
-import Detailfollow from "./detailfollow";
-import Detailfollowing from "./detailfollowing";
-import Detailrepo from "./detailrepo";
+function profile() {
 
-function Profile({ user, fetchProfile }) {
-  const [activeTab, setActiveTab] = useState("profile");
+    const { user, fetchProfile } = useContext(GithubContext);
 
-  if (!user) return null;
+    const [activeTab, setActiveTab] = useState("profile");
+
+    if (!user) return null;
 
   const tabs = [
     {
@@ -87,20 +90,18 @@ function Profile({ user, fetchProfile }) {
 
       <div className="info">
         {activeTab === "profile" && (
-          <DetailProfile user={user} />
+          <DetailProfile  />
         )}
 
         {activeTab === "followers" && (
           <Detailfollow
-            user={user}
-            fetchProfile={fetchProfile}
+            
           />
         )}
 
         {activeTab === "following" && (
           <Detailfollowing
-            user={user}
-            fetchProfile={fetchProfile}
+            
           />
         )}
 
@@ -112,4 +113,4 @@ function Profile({ user, fetchProfile }) {
   );
 }
 
-export default Profile;
+export default profile;
